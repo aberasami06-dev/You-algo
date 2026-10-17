@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>YouTube Algo — Master the Algorithm with Sami Abera</title>
+  
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    :root {
+      --bg-dark: #07070a;
+      --bg-card: rgba(21, 21, 28, 0.65);
+      --bg-card-hover: rgba(30, 30, 42, 0.8);
+      --inner-bg: rgba(15, 15, 20, 0.7);
+      --drawer-bg: #121217;
+      --accent-red: #ff0033;
+      --accent-red-glow: rgba(255, 0, 51, 0.4);
+      --dark-red: #cc0000;
+      --accent-purple: #8a2be2;
+      --accent-purple-glow: rgba(138, 43, 226, 0.35);
+      --accent-blue: #3ea6ff;
+      --text-main: #f0f0f5;
+      --text-muted: #a0a0b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(255, 0, 51, 0.5);
+      --success-green: #00e676;
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 80px;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Ambient Dynamic Mesh Background Animation */
+    .ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.45;
+      animation: floatOrb 20s infinite alternate ease-in-out;
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent-red) 0%, transparent 70%);
+      top: -100px;
+      left: -100px;
+    }
+
+    .orb-2 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+      bottom: -150px;
+      right: -150px;
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #0055ff 0%, transparent 70%);
+      top: 40%;
+      left: 30%;
+      opacity: 0.25;
+      animation-delay: -10s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(80px, 60px) scale(1.1); }
+      100% { transform: translate(-50px, 100px) scale(0.95); }
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-red); }
+
+    /* Header Bar */
+    header {
+      background: rgba(11, 11, 16, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      height: 70px;
+      display: flex;
+      align-items: center;
+    }
+
+    nav {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hamburger-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+
+    .hamburger-btn:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--accent-red); }
+
+    .nav-links {
+      display: flex;
+      gap: 0.4rem;
+      list-style: none;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar { display: none; }
+
+    .nav-links li button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.6rem 0.9rem;
+      border-radius: 10px;
+      white-space: nowrap;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-links li button.active,
+    .nav-links li button:hover {
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-links li button.active {
+      background: rgba(255, 0, 51, 0.15);
+      color: #fff;
+      border: 1px solid rgba(255, 0, 51, 0.3);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .btn-auth-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-auth-outline:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .btn-auth-filled {
+      background: linear-gradient(135deg, var(--accent-red), var(--dark-red));
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--accent-red-glow);
+      transition: all 0.25s ease;
+    }
+
+    .btn-auth-filled:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-red-glow);
+    }
+
+    /* Side Drawer Navigation */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .android-drawer {
+      position: fixed;
+      top: 0;
+      left: -320px;
+      width: 300px;
+      height: 100%;
+      background-color: var(--drawer-bg);
+      border-right: 1px solid var(--border-color);
+      z-index: 2100;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 8px 0 35px rgba(0, 0, 0, 0.7);
+      overflow-y: auto;
+    }
+
+    .drawer-overlay.active .android-drawer {
+      transform: translateX(320px);
+    }
+
+    .drawer-header {
+      background: linear-gradient(180deg, rgba(255,0,51,0.15) 0%, rgba(21,21,28,0.8) 100%);
+      padding: 1.8rem 1.25rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .user-avatar-circle {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-red), var(--accent-purple));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      box-shadow: 0 4px 15px var(--accent-red-glow);
+    }
+
+    .user-info { display: flex; flex-direction: column; }
+    .user-name { font-size: 1.05rem; font-weight: 700; color: #fff; }
+    .user-email { font-size: 0.8rem; color: var(--text-muted); }
+
+    .drawer-content { padding: 1rem 0; flex: 1; }
+    .drawer-section-title {
+      padding: 0.6rem 1.25rem 0.3rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .drawer-menu-list { list-style: none; margin-bottom: 0.75rem; }
+    .drawer-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.25rem;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .drawer-menu-item:hover, .drawer-menu-item.active {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .drawer-menu-item i { width: 22px; text-align: center; color: var(--text-muted); font-size: 1.05rem; }
+    .drawer-menu-item.active i { color: var(--accent-red); }
+    .drawer-divider { height: 1px; background-color: var(--border-color); margin: 0.6rem 0; }
+
+    /* Page Router Views */
+    .page { display: none; }
+    .page.active { display: block; animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container { max-width: 1240px; margin: 0 auto; padding: 2.5rem 1.2rem; }
+
+    /* Glass Card Styling */
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--glass-shadow);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: center;
+      padding: 1.5rem 0 3rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 0, 51, 0.12);
+      border: 1px solid rgba(255, 0, 51, 0.4);
+      color: #ff4d6d;
+      padding: 0.45rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 0 15px rgba(255, 0, 51, 0.2);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 1.2rem;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 .highlight-name {
+      background: linear-gradient(90deg, #ffffff 0%, #ff4d6d 50%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .slogan {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--accent-red);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .creator-photo-container {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .creator-photo-frame {
+      width: 100%;
+      border-radius: 28px;
+      border: 2px solid rgba(255, 0, 51, 0.6);
+      box-shadow: 0 0 35px var(--accent-red-glow), 0 0 50px var(--accent-purple-glow);
+      overflow: hidden;
+      aspect-ratio: 9/16;
+      background: var(--inner-bg);
+      position: relative;
+    }
+
+    .creator-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .creator-photo-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      background: rgba(12, 12, 18, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .creator-photo-badge .name { font-weight: 800; font-size: 1.15rem; color: #fff; }
+    .creator-photo-badge .title { font-size: 0.82rem; color: var(--accent-red); font-weight: 700; }
+
+    /* Problem Solver UI */
+    .tool-box-container {
+      background-color: var(--inner-bg);
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      border-radius: 16px;
+      margin-top: 1.5rem;
+    }
+
+    .mode-selector { display: flex; gap: 10px; margin-bottom: 1.2rem; }
+    .mode-btn {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.75rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: linear-gradient(135deg, var(--accent-red), var(--dark-red));
+      color: #fff;
+      border-color: var(--accent-red);
+      box-shadow: 0 4px 15px var(--accent-red-glow);
+    }
+
+    .input-panel { display: none; flex-direction: column; gap: 12px; }
+    .input-panel.active { display: flex; }
+
+    input[type="url"], input[type="text"], input[type="email"], input[type="password"], textarea {
+      width: 100%;
+      padding: 0.85rem 1.1rem;
+      background-color: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 12px rgba(62, 166, 255, 0.25);
+    }
+
+    textarea { resize: vertical; min-height: 110px; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-red), var(--dark-red));
+      color: white;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      cursor: pointer;
+      align-self: flex-start;
+      box-shadow: 0 4px 15px var(--accent-red-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-red-glow);
+    }
+
+    .results-box {
+      display: none;
+      background-color: rgba(10, 10, 14, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .meta-info {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .problem-item {
+      background-color: rgba(255, 0, 51, 0.1);
+      border-left: 4px solid var(--accent-red);
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.8rem;
+      border-radius: 6px;
+      color: #ffb3c1;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .solution-item {
+      background-color: rgba(0, 230, 118, 0.1);
+      border-left: 4px solid var(--success-green);
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.8rem;
+      border-radius: 6px;
+      color: #b3ffd6;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .action-bar { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.12); }
+
+    /* Video Masterclass Player */
+    .video-section {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2.2rem;
+      margin: 3.5rem 0;
+      box-shadow: var(--glass-shadow);
+    }
+
+    .video-header { text-align: center; margin-bottom: 1.8rem; }
+    .video-header h2 { font-size: clamp(1.5rem, 3.5vw, 2.3rem); margin-bottom: 0.5rem; font-weight: 800; }
+    .video-header p { color: var(--text-muted); font-size: 0.98rem; }
+
+    .video-player-box {
+      width: 100%;
+      max-width: 940px;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      position: relative;
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+    }
+
+    .video-overlay-screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
+      padding: 1.5rem;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .video-presenter-avatar {
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-red);
+      overflow: hidden;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 25px var(--accent-red-glow);
+    }
+
+    .video-presenter-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+    .play-btn-large {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-red), var(--dark-red));
+      color: #fff;
+      border: none;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 30px var(--accent-red-glow);
+      margin-bottom: 1.2rem;
+      transition: transform 0.2s ease;
+    }
+
+    .play-btn-large:hover { transform: scale(1.1); }
+
+    .video-subtitles {
+      background: rgba(8, 8, 12, 0.9);
+      border-top: 2px solid var(--accent-red);
+      padding: 0.9rem 1.4rem;
+      color: #fff;
+      font-size: clamp(0.9rem, 2vw, 1.15rem);
+      font-weight: 600;
+      text-align: center;
+      min-height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+    }
+
+    .video-controls {
+      background: #0a0a0e;
+      padding: 0.7rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      z-index: 3;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .video-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+
+    .video-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+    .video-progress-bar {
+      flex: 1;
+      height: 6px;
+      background: #252530;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-progress-fill { width: 0%; height: 100%; background: var(--accent-red); border-radius: 10px; }
+
+    .audio-visualizer { display: flex; align-items: flex-end; gap: 3px; height: 22px; }
+    .v-bar { width: 3.5px; background: var(--accent-red); border-radius: 3px; height: 4px; }
+    .v-bar.animating { animation: bounceBar 0.6s infinite alternate ease-in-out; }
+
+    @keyframes bounceBar { 0% { height: 4px; } 100% { height: 22px; } }
+
+    /* Tips Grid & Mindset */
+    .algo-section-header {
+      background: linear-gradient(135deg, rgba(255,0,51,0.12), rgba(138,43,226,0.12));
+      border: 1px solid var(--border-active);
+      border-radius: 20px;
+      padding: 2.2rem 1.8rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .algo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.4rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .algo-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.6rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .algo-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 0, 51, 0.4);
+      box-shadow: 0 10px 25px rgba(255, 0, 51, 0.15);
+    }
+
+    .algo-number {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 0, 51, 0.15);
+      color: var(--accent-red);
+      font-weight: 800;
+      padding: 0.25rem 0.7rem;
+      border-radius: 50px;
+      font-size: 0.78rem;
+    }
+
+    .algo-card h3 { font-size: 1.15rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; }
+    .algo-card h3 i { color: var(--accent-red); }
+    .algo-card p, .algo-card ul { color: var(--text-muted); font-size: 0.93rem; }
+
+    .mindset-card {
+      background: linear-gradient(135deg, rgba(138,43,226,0.8), rgba(255,0,51,0.8));
+      border-radius: 20px;
+      padding: 2.8rem 1.8rem;
+      text-align: center;
+      margin: 3.5rem 0;
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(138,43,226,0.3);
+    }
+
+    /* Auth Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-card {
+      background-color: #121218;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.2rem;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .auth-form { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1.2rem; }
+
+    /* Contact Form & Pages */
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label { font-size: 0.9rem; font-weight: 600; color: #fff; }
+
+    .contact-info-box {
+      background: var(--inner-bg);
+      padding: 1.5rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      margin-top: 2rem;
+    }
+
+    /* Toast */
+    #toast {
+      visibility: hidden;
+      min-width: 240px;
+      background-color: var(--accent-blue);
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 14px;
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 700;
+      z-index: 4000;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    #toast.show { visibility: visible; animation: fadeInOut 2.5s; }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; bottom: 75px; }
+      15% { opacity: 1; bottom: 90px; }
+      85% { opacity: 1; bottom: 90px; }
+      100% { opacity: 0; bottom: 75px; }
+    }
+
+    /* Mobile Bottom Bar */
+    .mobile-bottom-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 14, 0.92);
+      border-top: 1px solid var(--border-color);
+      padding: 0.65rem 1rem;
+      z-index: 999;
+      justify-content: space-around;
+      align-items: center;
+      backdrop-filter: blur(16px);
+    }
+
+    .mobile-bar-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .mobile-bar-btn i { font-size: 1.25rem; }
+    .mobile-bar-btn.active { color: var(--accent-red); }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-badge { margin: 0 auto 1rem; }
+      .slogan { justify-content: center; }
+      .header-actions { display: none; }
+      .mobile-bottom-bar { display: flex; }
+      .video-section { padding: 1.5rem 1rem; }
+      .nav-links { display: none; }
+    }
+
+    footer {
+      background: #040406;
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 1rem;
+      margin-top: 4rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+
+    .footer-links a { font-size: 0.88rem; color: var(--text-muted); cursor: pointer; transition: color 0.2s; }
+    .footer-links a:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Ambient Animated Background -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <nav>
+      <div class="header-left">
+        <button class="hamburger-btn" onclick="toggleDrawer()" aria-label="Open Navigation Drawer">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="logo" onclick="switchTab('home')">
+          <i class="fa-brands fa-youtube" style="color: var(--accent-red); font-size: 1.6rem;"></i>
+          YouTube <span>Algo</span>
+        </div>
+      </div>
+
+      <ul class="nav-links">
+        <li><button id="nav-home" class="active" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> Home</button></li>
+        <li><button id="nav-tool" onclick="switchTab('tool')"><i class="fa-solid fa-bolt"></i> Problem Solver</button></li>
+        <li><button id="nav-advertising" onclick="switchTab('advertising')"><i class="fa-solid fa-bullhorn"></i> Strategy</button></li>
+        <li><button id="nav-about" onclick="switchTab('about')"><i class="fa-solid fa-circle-info"></i> About Us</button></li>
+        <li><button id="nav-contact" onclick="switchTab('contact')"><i class="fa-solid fa-envelope"></i> Contact</button></li>
+      </ul>
+
+      <div class="header-actions">
+        <button class="btn-auth-outline" onclick="openModal('signIn')">
+          <i class="fa-solid fa-right-to-bracket"></i> Sign In
+        </button>
+        <button class="btn-auth-filled" onclick="openModal('signUp')">Sign Up</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Slide-out Side Drawer Navigation -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()">
+    <div class="android-drawer" onclick="event.stopPropagation()">
+      <div class="drawer-header">
+        <div class="user-avatar-circle" id="drawerAvatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="user-info">
+          <span class="user-name" id="drawerUserName">Guest Creator</span>
+          <span class="user-email" id="drawerUserEmail">Sign in for channel analytics</span>
+        </div>
+      </div>
+
+      <div class="drawer-content">
+        <div class="drawer-section-title">Core Navigation</div>
+        <ul class="drawer-menu-list">
+          <li><a class="drawer-menu-item active" id="drawer-nav-home" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> Home Overview</a></li>
+          <li><a class="drawer-menu-item" id="drawer-nav-tool" onclick="switchTab('tool')"><i class="fa-solid fa-bolt"></i> Problem Solver Tool</a></li>
+          <li><a class="drawer-menu-item" id="drawer-nav-advertising" onclick="switchTab('advertising')"><i class="fa-solid fa-bullhorn"></i> Strategy Blueprint</a></li>
+          <li><a class="drawer-menu-item" id="drawer-nav-profile" onclick="switchTab('profile')"><i class="fa-solid fa-user-gear"></i> Profile & Settings</a></li>
+        </ul>
+
+        <div class="drawer-divider"></div>
+
+        <div class="drawer-section-title">Information & Legal</div>
+        <ul class="drawer-menu-list">
+          <li><a class="drawer-menu-item" id="drawer-nav-about" onclick="switchTab('about')"><i class="fa-solid fa-circle-info"></i> About Us</a></li>
+          <li><a class="drawer-menu-item" id="drawer-nav-contact" onclick="switchTab('contact')"><i class="fa-solid fa-envelope"></i> Contact Us</a></li>
+          <li><a class="drawer-menu-item" id="drawer-nav-terms" onclick="switchTab('terms')"><i class="fa-solid fa-file-contract"></i> Terms & Disclaimer</a></li>
+        </ul>
+
+        <div class="drawer-divider"></div>
+
+        <div class="drawer-section-title">Account Access</div>
+        <ul class="drawer-menu-list">
+          <li><a class="drawer-menu-item" onclick="openModal('signIn')"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
+          <li><a class="drawer-menu-item" onclick="openModal('signUp')"><i class="fa-solid fa-user-plus"></i> Create Account</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 1: HOME PAGE -->
+  <div id="page-home" class="page active">
+    <div class="container">
+      
+      <!-- HERO SECTION -->
+      <section class="hero">
+        <div>
+          <div class="hero-badge">
+            <i class="fa-solid fa-certificate"></i> Official Growth Guide by Sami Abera
+          </div>
+          <h1>
+            Master YouTube Algorithms with <br>
+            <span class="highlight-name">Sami Abera</span>
+          </h1>
+          <p>
+            Welcome to YouTube Algo! Engineered specifically for creators who want to decode how YouTube recommends content, maximize organic impressions, and turn viewers into loyal subscribers.
+          </p>
+          <div class="slogan"><i class="fa-solid fa-chart-line"></i> Learn. Create. Improve. Grow.</div>
+
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1.5rem;">
+            <button class="btn-follow" id="likeBtn" onclick="toggleLike()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color); color: #fff; padding: 0.75rem 1.4rem; border-radius: 30px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-thumbs-up" style="color: var(--accent-red);"></i> <span id="likeCount">2,840</span> Likes
+            </button>
+            <button class="btn-primary" onclick="switchTab('tool')">
+              <i class="fa-solid fa-bolt"></i> Launch Problem Solver
+            </button>
+          </div>
+        </div>
+
+        <div class="creator-photo-container">
+          <div class="creator-photo-frame">
+            <img src="1000007398_c0c85a.jpg" alt="Sami Abera - Founder of YouTube Algo" id="heroPhoto" onerror="this.src='https://placehold.co/400x700/1a1a24/ffffff?text=Sami+Abera'" />
+            <div class="creator-photo-badge">
+              <div class="name">Sami Abera</div>
+              <div class="title">Founder & YouTube Growth Strategist</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- INTERACTIVE VIDEO MASTERCLASS -->
+      <section class="video-section">
+        <div class="video-header">
+          <span style="color: var(--accent-red); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">
+            <i class="fa-solid fa-circle-play"></i> Featured Masterclass
+          </span>
+          <h2>How YouTube Recommendations Work in 2026</h2>
+          <p>Narrated & Presented by <strong>Sami Abera</strong> — Interactive Audio Sync</p>
+        </div>
+
+        <div class="video-player-box">
+          <div class="video-overlay-screen" id="videoOverlay">
+            <div class="video-presenter-avatar">
+              <img src="1000007398_c0c85a.jpg" alt="Sami Abera Video Presenter" onerror="this.src='https://placehold.co/150x150/1a1a24/ffffff?text=Sami'" />
+            </div>
+            <button class="play-btn-large" onclick="toggleVideoPlay()">
+              <i class="fa-solid fa-play" id="overlayPlayIcon"></i>
+            </button>
+            <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 0.3rem;">Masterclass Narration by Sami Abera</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem;">Press play to start interactive narration & captions</p>
+          </div>
+
+          <div class="video-subtitles" id="subtitlesBox">
+            "Welcome creators! I'm Sami Abera, and today we are demystifying the YouTube Algorithm."
+          </div>
+
+          <div class="video-controls">
+            <button class="video-btn" onclick="toggleVideoPlay()">
+              <i class="fa-solid fa-play" id="playIcon"></i>
+            </button>
+            
+            <div class="video-progress-bar" onclick="seekVideo(event)">
+              <div class="video-progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="audio-visualizer" id="visualizer">
+              <div class="v-bar"></div>
+              <div class="v-bar"></div>
+              <div class="v-bar"></div>
+              <div class="v-bar"></div>
+            </div>
+
+            <button class="video-btn" onclick="toggleMute()" title="Toggle Mute">
+              <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALGORITHM TIPS GRID -->
+      <div class="algo-section-header">
+        <h2 style="font-size: clamp(1.6rem, 4vw, 2.3rem); color: #fff; margin-bottom: 0.5rem; font-weight: 800;">What Is the YouTube Algorithm?</h2>
+        <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto; font-size: 1rem;">
+          The YouTube algorithm is a real-time recommendation engine designed to match individual viewers with videos they are most likely to watch and enjoy.
+        </p>
+      </div>
+
+      <div class="algo-grid">
+        <div class="algo-card">
+          <span class="algo-number">Signal 01</span>
+          <h3><i class="fa-solid fa-eye"></i> Recommendation Signals</h3>
+          <p>YouTube evaluates watch history, search queries, clicked thumbnails, watch duration, and satisfaction feedback (likes, shares).</p>
+        </div>
+        <div class="algo-card">
+          <span class="algo-number">Signal 02</span>
+          <h3><i class="fa-solid fa-diagram-project"></i> Multi-System Engine</h3>
+          <p>Separate recommendation models govern the Home Feed, Suggested Videos sidebar, Search Results, and YouTube Shorts Feed.</p>
+        </div>
+        <div class="algo-card">
+          <span class="algo-number">Signal 03</span>
+          <h3><i class="fa-solid fa-arrow-pointer"></i> Click-Through Rate (CTR)</h3>
+          <p>The proportion of users who click your video thumbnail after seeing it. Strong packaging (Title + Thumbnail) drives high initial CTR.</p>
+        </div>
+        <div class="algo-card">
+          <span class="algo-number">Signal 04</span>
+          <h3><i class="fa-solid fa-clock"></i> Retention & APV</h3>
+          <p>Average Percentage Viewed (APV) and retention hooks in the first 30 seconds decide whether YouTube expands impression tests.</p>
+        </div>
+      </div>
+
+      <div class="mindset-card">
+        <h2 style="font-size: 1.6rem; margin-bottom: 1rem;">💡 Sami Abera's Golden Creator Rule</h2>
+        <p style="font-size: 1.15rem; max-width: 850px; margin: 0 auto; line-height: 1.7;">
+          Don't ask: <strong>“How can I trick YouTube's algorithm into promoting my video?”</strong><br>
+          Ask: <strong>“How can I make a video that my target audience wants to click, watch, enjoy, and share?”</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: PROBLEM SOLVER TOOL -->
+  <div id="page-tool" class="page">
+    <div class="container">
+      <div class="glass-card">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; font-weight: 800;">YouTube Algorithm Problem Solver</h1>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Diagnose channel bottlenecks instantly by pasting your video/channel link or describing your exact situation.</p>
+
+        <div class="tool-box-container">
+          <div class="mode-selector">
+            <button class="mode-btn active" id="btnModeUrl" onclick="switchMode('url')">
+              <i class="fa-solid fa-link"></i> By YouTube Link
+            </button>
+            <button class="mode-btn" id="btnModeText" onclick="switchMode('text')">
+              <i class="fa-solid fa-pen-to-square"></i> By Custom Description
+            </button>
+          </div>
+
+          <div id="panelUrl" class="input-panel active">
+            <input type="url" id="ytUrl" placeholder="https://www.youtube.com/watch?v=... or channel URL">
+            <button class="btn-primary" onclick="processUrlAudit()"><i class="fa-solid fa-magnifying-glass"></i> Analyze Link</button>
+          </div>
+
+          <div id="panelText" class="input-panel">
+            <textarea id="customProblemText" placeholder="Describe your channel problem e.g., 'My views dropped suddenly from 5,000 to 50', or 'CTR is 2.1% and viewer dropoff happens at 15s'"></textarea>
+            <button class="btn-primary" onclick="processTextProblem()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Solution Report</button>
+          </div>
+        </div>
+
+        <div id="resultsBox" class="results-box">
+          <div class="meta-info">
+            <p><strong>Input Target:</strong> <span id="resSource" style="color: var(--accent-blue);">--</span> | <strong>Audit Type:</strong> <span id="resType">Algorithmic Diagnostics</span></p>
+          </div>
+
+          <h3 style="color: #ff6b6b; font-size: 1.05rem; margin-bottom: 0.6rem; font-weight: 700;">
+            <i class="fa-solid fa-circle-exclamation"></i> Detected Algorithmic Bottlenecks
+          </h3>
+          <div id="problemsContainer"></div>
+
+          <h3 style="color: var(--success-green); font-size: 1.05rem; margin-top: 1.4rem; margin-bottom: 0.6rem; font-weight: 700;">
+            <i class="fa-solid fa-circle-check"></i> Recommended Action Plan & Fixes
+          </h3>
+          <div id="solutionsContainer"></div>
+
+          <div class="action-bar">
+            <button class="btn-secondary" onclick="copyReport()">
+              <i class="fa-regular fa-copy"></i> Copy Solution Report
+            </button>
+            <button class="btn-secondary" onclick="downloadReport()">
+              <i class="fa-solid fa-download"></i> Download Report (.txt)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: ADVERTISING & STRATEGY -->
+  <div id="page-advertising" class="page">
+    <div class="container">
+      <div class="glass-card">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; font-weight: 800;">Sami Abera's Content Strategy Blueprint</h1>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Cross-platform promotional frameworks, viral Shorts blueprints, and keyword targeting lists.</p>
+
+        <div class="algo-grid">
+          <div class="algo-card">
+            <h3><i class="fa-solid fa-clapperboard"></i> Viral Short Blueprint #1</h3>
+            <p><strong>"3 Algorithm Mistakes Killing Your Views"</strong></p>
+            <p style="margin-top: 0.5rem; font-size: 0.88rem;">Hook viewers in the first 2 seconds by displaying a dramatic retention graph drop, followed by actionable fixes for titles and thumbnails.</p>
+          </div>
+
+          <div class="algo-card">
+            <h3><i class="fa-solid fa-clapperboard"></i> Viral Short Blueprint #2</h3>
+            <p><strong>"How YouTube Recommends Videos in 2026"</strong></p>
+            <p style="margin-top: 0.5rem; font-size: 0.88rem;">Explain watch duration, click satisfaction, and session time using clean visuals and fast-paced commentary.</p>
+          </div>
+
+          <div class="algo-card">
+            <h3><i class="fa-solid fa-bullseye"></i> High-Intent Keywords Target</h3>
+            <ul style="list-style: none; margin-top: 0.5rem;">
+              <li><i class="fa-solid fa-check" style="color: var(--success-green);"></i> YouTube algorithm update 2026</li>
+              <li><i class="fa-solid fa-check" style="color: var(--success-green);"></i> How to increase video CTR</li>
+              <li><i class="fa-solid fa-check" style="color: var(--success-green);"></i> YouTube subscriber growth strategy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: ABOUT US (from essential.html) -->
+  <div id="page-about" class="page">
+    <div class="container">
+      <div class="glass-card">
+        <h1 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 800;">About Us</h1>
+        <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Welcome to <strong>YouTube Algo</strong> — your ultimate platform for mastering the YouTube algorithm, expanding audience reach, and building a sustainable content creation career.</p>
+        
+        <h2 style="font-size: 1.4rem; color: #fff; margin: 1.5rem 0 0.8rem; font-weight: 700;">Our Mission</h2>
+        <p>At YouTube Algo, our mission is to demystify how YouTube recommends, ranks, and distributes content. We empower creators worldwide — from beginners publishing their first video to established creators scaling channels — with data-driven insights, algorithm updates, and actionable growth tools.</p>
+        
+        <h2 style="font-size: 1.4rem; color: #fff; margin: 1.5rem 0 0.8rem; font-weight: 700;">What We Offer</h2>
+        <div class="algo-grid" style="margin-top: 1rem; margin-bottom: 1rem;">
+          <div class="algo-card">
+            <h3><i class="fa-solid fa-chart-pie"></i> Algorithm Insights</h3>
+            <p>Clear breakdowns of YouTube algorithm updates, recommendation signals, and ranking metrics.</p>
+          </div>
+          <div class="algo-card">
+            <h3><i class="fa-solid fa-rocket"></i> Growth Strategies</h3>
+            <p>Proven tactics for boosting Click-Through Rate (CTR), Average Percentage Viewed (APV), and subscriber conversion.</p>
+          </div>
+          <div class="algo-card">
+            <h3><i class="fa-solid fa-toolbox"></i> Diagnostic Tools</h3>
+            <p>Smart tools designed to streamline video optimization, thumbnail design, and audience retention analysis.</p>
+          </div>
+        </div>
+
+        <h2 style="font-size: 1.4rem; color: #fff; margin: 1.5rem 0 0.8rem; font-weight: 700;">Why Trust Us?</h2>
+        <p>Founded by YouTube Growth Strategist <strong>Sami Abera</strong>, YouTube Algo continually analyzes video performance trends and platform updates to deliver clear, honest, and effective advice without non-compliant shortcuts.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: CONTACT US (from essential.html) -->
+  <div id="page-contact" class="page">
+    <div class="container">
+      <div class="glass-card">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem; font-weight: 800;">Contact Us</h1>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Have questions about our growth platform, feedback, or business inquiries? Get in touch with us!</p>
+        
+        <form class="contact-form" onsubmit="handleContactSubmit(event)">
+          <div class="form-group">
+            <label for="c-name">Your Full Name</label>
+            <input type="text" id="c-name" placeholder="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label for="c-email">Your Email Address</label>
+            <input type="email" id="c-email" placeholder="john@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="c-subject">Subject</label>
+            <input type="text" id="c-subject" placeholder="General Inquiry / Channel Growth Help" required>
+          </div>
+          <div class="form-group">
+            <label for="c-message">Message</label>
+            <textarea id="c-message" rows="5" placeholder="Write your message or inquiry details here..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+        </form>
+
+        <div class="contact-info-box">
+          <h3 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.8rem; font-weight: 700;">Direct Inquiries</h3>
+          <p><strong>General Support:</strong> <a href="mailto:support@youtubealgo.com" style="color: var(--accent-blue);">support@youtubealgo.com</a></p>
+          <p><strong>Business & Partnerships:</strong> <a href="mailto:business@youtubealgo.com" style="color: var(--accent-blue);">business@youtubealgo.com</a></p>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.6rem;"><em>Estimated Response Time: 24 to 48 hours (Monday – Friday).</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: PROFILE & SETTINGS -->
+  <div id="page-profile" class="page">
+    <div class="container">
+      <div class="glass-card">
+        <h1 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 800;">Creator Profile Settings</h1>
+        <div style="margin-bottom: 1.2rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Display Name</label>
+          <input type="text" id="profileDisplayName" value="Sami Abera" />
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Channel Niche</label>
+          <input type="text" value="YouTube Growth & Tech Tutorials" />
+        </div>
+        <button class="btn-primary" onclick="showToast('Profile Saved Successfully!')"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7: TERMS & DISCLAIMER (from essential.html) -->
+  <div id="page-terms" class="page">
+    <div class="container">
+      <div class="glass-card">
+        <h1 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 800;">Terms of Service & Disclaimer</h1>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;"><em>Last Updated: October 2026</em></p>
+
+        <h3 style="color: #fff; font-size: 1.2rem; margin: 1.2rem 0 0.5rem;">1. Independent Status & YouTube™ Disclaimer</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+          <strong>YouTube Algo is an independent educational platform.</strong> We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with YouTube, Google LLC, or Alphabet Inc. YouTube name and trademarks belong to their respective owners.
+        </p>
+
+        <h3 style="color: #fff; font-size: 1.2rem; margin: 1.2rem 0 0.5rem;">2. Educational & Informational Purpose</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+          All tools, strategies, and content on YouTube Algo are provided for educational purposes. Channel growth results vary depending on individual video quality, niche demand, and audience engagement.
+        </p>
+
+        <h3 style="color: #fff; font-size: 1.2rem; margin: 1.2rem 0 0.5rem;">3. Limitation of Liability</h3>
+        <p style="color: var(--text-muted);">
+          In no event shall YouTube Algo or its operators be held liable for channel performance changes resulting from the application of recommended practices.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign In / Sign Up Modals -->
+  <div class="modal-overlay" id="signInModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('signIn')"><i class="fa-solid fa-xmark"></i></button>
+      <h2 style="font-size: 1.6rem; color: #fff; font-weight: 800;">Sign In</h2>
+      <p style="color: var(--text-muted); font-size: 0.88rem;">Log in to access your saved channel diagnostic reports.</p>
+      <form class="auth-form" onsubmit="handleAuth(event, 'Sign In')">
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem;">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="signUpModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal('signUp')"><i class="fa-solid fa-xmark"></i></button>
+      <h2 style="font-size: 1.6rem; color: #fff; font-weight: 800;">Create Account</h2>
+      <p style="color: var(--text-muted); font-size: 0.88rem;">Join YouTube Algo to unlock advanced channel audit tools.</p>
+      <form class="auth-form" onsubmit="handleAuth(event, 'Sign Up')">
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem;">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <div class="mobile-bottom-bar">
+    <button class="mobile-bar-btn active" id="mbar-home" onclick="switchTab('home')">
+      <i class="fa-solid fa-house"></i> Home
+    </button>
+    <button class="mobile-bar-btn" id="mbar-tool" onclick="switchTab('tool')">
+      <i class="fa-solid fa-bolt"></i> Solver
+    </button>
+    <button class="mobile-bar-btn" id="mbar-advertising" onclick="switchTab('advertising')">
+      <i class="fa-solid fa-bullhorn"></i> Strategy
+    </button>
+    <button class="mobile-bar-btn" id="mbar-contact" onclick="switchTab('contact')">
+      <i class="fa-solid fa-envelope"></i> Contact
+    </button>
+  </div>
+
+  <div id="toast">Message Notification</div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 YouTube Algo — Founded by <strong>Sami Abera</strong>. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><a onclick="switchTab('home')">Home</a></li>
+      <li><a onclick="switchTab('about')">About Us</a></li>
+      <li><a onclick="switchTab('contact')">Contact Us</a></li>
+      <li><a onclick="switchTab('terms')">Terms & Disclaimer</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    /* Navigation & Drawer Router */
+    function toggleDrawer() { document.getElementById('drawerOverlay').classList.toggle('active'); }
+    function closeDrawer() { document.getElementById('drawerOverlay').classList.remove('active'); }
+
+    function switchTab(tabName) {
+      closeDrawer();
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      document.querySelectorAll('.nav-links button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.mobile-bar-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.drawer-menu-item').forEach(btn => btn.classList.remove('active'));
+
+      const targetPage = document.getElementById('page-' + tabName);
+      if(targetPage) targetPage.classList.add('active');
+
+      const navBtn = document.getElementById('nav-' + tabName);
+      if(navBtn) navBtn.classList.add('active');
+
+      const mbarBtn = document.getElementById('mbar-' + tabName);
+      if(mbarBtn) mbarBtn.classList.add('active');
+
+      const drawerBtn = document.getElementById('drawer-nav-' + tabName);
+      if(drawerBtn) drawerBtn.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Auth Modals Logic */
+    function openModal(type) {
+      closeDrawer();
+      if(type === 'signIn') document.getElementById('signInModal').classList.add('active');
+      if(type === 'signUp') document.getElementById('signUpModal').classList.add('active');
+    }
+
+    function closeModal(type) {
+      if(type === 'signIn') document.getElementById('signInModal').classList.remove('active');
+      if(type === 'signUp') document.getElementById('signUpModal').classList.remove('active');
+    }
+
+    function handleAuth(e, type) {
+      e.preventDefault();
+      const email = e.target.querySelector('input[type="email"]').value;
+      closeModal('signIn'); closeModal('signUp');
+      document.getElementById('drawerUserName').innerText = email.split('@')[0];
+      document.getElementById('drawerUserEmail').innerText = email;
+      document.getElementById('drawerAvatar').innerText = email.charAt(0).toUpperCase();
+      showToast(`${type} Successful! Welcome.`);
+    }
+
+    /* Contact Form Submission */
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      showToast("Thank you! Your message has been sent.");
+      e.target.reset();
+    }
+
+    /* Dual Mode Switcher in Problem Solver */
+    function switchMode(mode) {
+      if (mode === 'url') {
+        document.getElementById('btnModeUrl').classList.add('active');
+        document.getElementById('btnModeText').classList.remove('active');
+        document.getElementById('panelUrl').classList.add('active');
+        document.getElementById('panelText').classList.remove('active');
+      } else {
+        document.getElementById('btnModeText').classList.add('active');
+        document.getElementById('btnModeUrl').classList.remove('active');
+        document.getElementById('panelText').classList.add('active');
+        document.getElementById('panelUrl').classList.remove('active');
+      }
+    }
+
+    let generatedReportText = "";
+
+    function processUrlAudit() {
+      const url = document.getElementById('ytUrl').value.trim();
+      if(!url) { showToast("Please enter a valid YouTube URL."); return; }
+      document.getElementById('resSource').innerText = url;
+      renderResults(
+        ["Low Click-Through Rate (CTR) detected from initial impressions test.", "Title length exceeds recommended mobile display limits."],
+        ["Redesign video thumbnail with high-contrast elements & clear text overlay.", "Shorten main hook title to under 55 characters for optimal mobile visibility."]
+      );
+    }
+
+    function processTextProblem() {
+      const text = document.getElementById('customProblemText').value.trim();
+      if(!text) { showToast("Please describe your problem."); return; }
+      document.getElementById('resSource').innerText = "Custom Problem Analysis";
+      renderResults(
+        ["Audience retention dropoff in the initial 20 seconds.", "Low engagement signals (like/comment ratio) relative to view count."],
+        ["Eliminate channel intros. Open directly with the core promise within 5 seconds.", "Include a specific engagement call-to-action midway through the video."]
+      );
+    }
+
+    function renderResults(problems, solutions) {
+      document.getElementById('problemsContainer').innerHTML = problems.map(p => `<div class="problem-item"><i class="fa-solid fa-triangle-exclamation"></i> ${p}</div>`).join('');
+      document.getElementById('solutionsContainer').innerHTML = solutions.map(s => `<div class="solution-item"><i class="fa-solid fa-circle-check"></i> ${s}</div>`).join('');
+      generatedReportText = `--- YOUTUBE ALGO DIAGNOSTIC REPORT ---\nProblems:\n${problems.join('\n')}\nSolutions:\n${solutions.join('\n')}`;
+      document.getElementById('resultsBox').style.display = 'block';
+      showToast("Diagnostic Audit Complete!");
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function copyReport() {
+      if(!generatedReportText) return;
+      navigator.clipboard.writeText(generatedReportText);
+      showToast("Report copied to clipboard!");
+    }
+
+    function downloadReport() {
+      if(!generatedReportText) return;
+      const blob = new Blob([generatedReportText], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'youtube-algo-audit-report.txt';
+      a.click();
+      showToast("Downloading report file...");
+    }
+
+    /* Video Narration Simulator Controls */
+    let isPlaying = false, isMuted = false, videoProgress = 0, videoTimer = null;
+    const narrationCaptions = [
+      "Welcome creators! I'm Sami Abera, and today we are demystifying the YouTube Algorithm.",
+      "The algorithm doesn't favor channels — it follows viewer behavior.",
+      "Focus on Click-Through Rate (CTR) and Audience Retention to trigger organic promotion.",
+      "Create content tailored to viewer interest, and the recommendations will follow!"
+    ];
+
+    function toggleVideoPlay() {
+      const overlay = document.getElementById('videoOverlay');
+      if(!isPlaying) {
+        isPlaying = true;
+        overlay.style.display = 'none';
+        document.getElementById('playIcon').className = 'fa-solid fa-pause';
+        document.querySelectorAll('.v-bar').forEach(b => b.classList.add('animating'));
+        
+        videoTimer = setInterval(() => {
+          videoProgress += 1;
+          document.getElementById('progressFill').style.width = (videoProgress / 30 * 100) + '%';
+          
+          let captionIdx = Math.floor((videoProgress / 30) * narrationCaptions.length);
+          if(narrationCaptions[captionIdx]) {
+            document.getElementById('subtitlesBox').innerText = `"${narrationCaptions[captionIdx]}"`;
+          }
+
+          if(videoProgress >= 30) resetVideo();
+        }, 400);
+      } else { pauseVideo(); }
+    }
+
+    function pauseVideo() {
+      isPlaying = false;
+      document.getElementById('playIcon').className = 'fa-solid fa-play';
+      document.querySelectorAll('.v-bar').forEach(b => b.classList.remove('animating'));
+      clearInterval(videoTimer);
+    }
+
+    function resetVideo() {
+      pauseVideo();
+      videoProgress = 0;
+      document.getElementById('progressFill').style.width = '0%';
+      document.getElementById('videoOverlay').style.display = 'flex';
+      document.getElementById('subtitlesBox').innerText = `"${narrationCaptions[0]}"`;
+    }
+
+    function seekVideo(e) {
+      const bar = e.currentTarget;
+      const rect = bar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      videoProgress = Math.floor((clickX / rect.width) * 30);
+      document.getElementById('progressFill').style.width = (videoProgress / 30 * 100) + '%';
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      document.getElementById('volumeIcon').className = isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+    }
+
+    /* Like Button Counter */
+    let isLiked = false, likes = 2840;
+    function toggleLike() {
+      likes = isLiked ? likes - 1 : likes + 1;
+      isLiked = !isLiked;
+      document.getElementById('likeCount').textContent = likes.toLocaleString();
+      document.getElementById('likeBtn').style.borderColor = isLiked ? 'var(--accent-red)' : 'var(--border-color)';
+    }
+  </script>
+</body>
+</html>
